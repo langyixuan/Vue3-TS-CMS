@@ -13,7 +13,7 @@ import {
   ElRadio,
   ElTabPane,
   ElTabs
-} from 'element-plus'
+} from 'element-plus/lib/components'
 
 const components = [
   ElButton,
