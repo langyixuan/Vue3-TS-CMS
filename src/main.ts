@@ -6,6 +6,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import lyxRequest from './network' // 引入网络请求
+import 'normalize.css' // 对样式做一些重置，抹平浏览器之间样式的差别
+import './style/main.scss' // 引入样式文件
 
 const app = createApp(App)
 

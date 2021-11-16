@@ -23,5 +23,19 @@ module.exports = {
     config.resolve.alias
       .set('@', path.resolve(__dirname, 'src'))
       .set('components', '@/components')
+  },
+
+  // css相关配置
+  css: {
+    // 是否使用css分离插件 ExtractTextPlugin
+    extract: true,
+    // 开启 CSS source maps?
+    sourceMap: false,
+    // css预设器配置项
+    loaderOptions: {
+      scss: {
+        prependData: `@import "./src/style/main.scss";`
+      }
+    }
   }
 }

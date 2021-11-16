@@ -1,0 +1,28 @@
+// 颜色变量
+// $green: #b2eac5;
+$green: #86edab;
+$black: #010319;
+$gray: #24263f;
+$white: #ffffff;
+$dark-blue: #3002c6;
+$blue: #48c0ce;
+
+// 边框圆角变量
+$br-10: 10px;
+$br-20: 20px;
+$br-30: 30px;
+
+// 代码样式复用
+// 水平垂直居中对其
+@mixin flex-c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 垂直居中两边对其
+@mixin flex-b {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

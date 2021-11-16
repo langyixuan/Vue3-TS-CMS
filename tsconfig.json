@@ -1,15 +1,25 @@
 {
   "compilerOptions": {
+    // 将目标代码ts编译成什么版本的es(esnext代表es6+版本)
     "target": "esnext",
+    // 目标代码需要使用的模块化方案(Commin.js  ES Module)
     "module": "esnext",
+    // 是否开启严格检查
     "strict": true,
+    // 是否对jsx进行处理
     "jsx": "preserve",
+    // 辅助的导入功能
     "importHelpers": true,
+    // 用node的方式去解析模块
     "moduleResolution": "node",
+    // 跳过一些库的类型检查(因为在使用ts时，不同库之间类型可以会发生冲突)
     "skipLibCheck": true,
+    // es module 和 common.js
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    // 要不要生成映射文件(ts → js)
     "sourceMap": true,
+    // 文件路径在解析时，基本url
     "baseUrl": ".",
     "types": [
       "webpack-env"
