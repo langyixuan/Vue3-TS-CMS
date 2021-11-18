@@ -2,7 +2,7 @@
  * 本地缓存文件
  */
 
-class LoaclCache {
+class LocalCache {
   // 设置缓存数据
   setLoaclStorage(key: string, value: any) {
     window.localStorage.setItem(key, JSON.stringify(value))
@@ -46,4 +46,4 @@ class LoaclCache {
   }
 }
 
-export default new LoaclCache()
+export default new LocalCache()

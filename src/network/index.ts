@@ -3,22 +3,21 @@
  */
 import LYXRequest from './request'
 import { BASE_URL, TIME_OUT } from './request/config'
+import localCache from '@/utils/cache'
 
 const lyxRequest = new LYXRequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
   interceptors: {
-    requestInterceptors: (config) => {
+    requestInterceptors: (config: any) => {
       // 携带token进行拦截
-      // const token = ''
-      // if (token) {
-      //   config.headers.Authorization = token
-      // }
-      console.log('请求拦截器')
+      const token = localCache.getLocalStorage('userToken')
+      if (token) {
+        config.headers.Authorization = token
+      }
       return config
     },
     responseInterceptors: (res) => {
-      console.log('响应拦截器')
       return res
     }
   }

@@ -38,7 +38,6 @@ class LYXRequest {
           text: '正在疯狂加载中...',
           background: 'rgba(0, 0, 0, 0.3)'
         })
-        console.log('全局请求拦截器')
         return config
       },
       (error) => {
@@ -52,7 +51,6 @@ class LYXRequest {
       (res) => {
         // 响应到结果后，移除loading
         this.loading?.close()
-        console.log('全局响应拦截器')
         return res.data
       },
       (error) => {

@@ -5,9 +5,9 @@ import { globalRegister } from './global'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import lyxRequest from './network' // 引入网络请求
 import 'normalize.css' // 对样式做一些重置，抹平浏览器之间样式的差别
 import './style/main.scss' // 引入样式文件
+// import setupStore from '@/store/index'
 
 const app = createApp(App)
 
@@ -17,29 +17,31 @@ app.use(router)
 
 app.mount('#app')
 
-interface DataType {
-  data: any
-  returnCode: string
-  success: boolean
-}
+// 初始化vuex中的数据，防止每次刷新页面丢失vuex中的数据
 
-lyxRequest
-  .request<DataType>({
-    url: '/home/multidata',
-    method: 'GET',
-    interceptors: {
-      requestInterceptors: (config) => {
-        console.log('对于单个请求的拦截')
-        return config
-      },
-      responseInterceptors: (res) => {
-        console.log('对于单个响应的拦截')
-        return res
-      }
-    }
-  })
-  .then((res) => {
-    console.log(res.data)
-    console.log(res.returnCode)
-    console.log(res.success)
-  })
+// interface DataType {
+//   data: any
+//   returnCode: string
+//   success: boolean
+// }
+
+// lyxRequest
+//   .request<DataType>({
+//     url: '/home/multidata',
+//     method: 'GET',
+//     interceptors: {
+//       requestInterceptors: (config) => {
+//         console.log('对于单个请求的拦截')
+//         return config
+//       },
+//       responseInterceptors: (res) => {
+//         console.log('对于单个响应的拦截')
+//         return res
+//       }
+//     }
+//   })
+//   .then((res) => {
+//     console.log(res.data)
+//     console.log(res.returnCode)
+//     console.log(res.success)
+//   })

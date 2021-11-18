@@ -33,12 +33,14 @@
 import { defineComponent, reactive, ref } from 'vue'
 import Schema from 'async-validator'
 import localChche from '@/utils/cache'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'AccountLogin',
   setup() {
+    const store = useStore()
     const form = reactive({
-      account: localChche.getLocalStorage('name') ?? '',
+      name: localChche.getLocalStorage('name') ?? '',
       password: localChche.getLocalStorage('password') ?? ''
     })
 
@@ -51,7 +53,7 @@ export default defineComponent({
     // 表单的校验规则
     const rules = {
       // 用户名验证
-      account: [
+      name: [
         // 1. 校验是否必传
         {
           required: true, // 是否必传
@@ -97,7 +99,7 @@ export default defineComponent({
         })
         .catch(({ errors }) => {
           const accountErr = errors.filter((err: any) => {
-            return err.field === 'account'
+            return err.field === 'name'
           })
           if (accountErr.length) {
             accountEl.value.innerText = accountErr[0].message
@@ -155,10 +157,11 @@ export default defineComponent({
       // 判断是否需要记住密码
       if (keeppassword) {
         // 通过localStorage进行本地缓存
-        localChche.setLoaclStorage('name', form.account)
+        localChche.setLoaclStorage('name', form.name)
         localChche.setLoaclStorage('password', form.password)
       }
       console.log('登录成功', keeppassword)
+      store.dispatch('login/accoutLoginAction', { ...form })
     }
 
     return {
