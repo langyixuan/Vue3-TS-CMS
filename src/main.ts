@@ -7,7 +7,7 @@ import router from './router'
 import store from './store'
 import 'normalize.css' // 对样式做一些重置，抹平浏览器之间样式的差别
 import './style/main.scss' // 引入样式文件
-// import setupStore from '@/store/index'
+import { setupStore } from '@/store/index'
 
 const app = createApp(App)
 

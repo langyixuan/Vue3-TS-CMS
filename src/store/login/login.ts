@@ -49,6 +49,21 @@ const loginModule: Module<ILoginState, IRootState> = {
 
       // 4. 跳转到首页
       router.push('/main')
+    },
+    // 每次刷新都会重新将localStorage中的数据再一次更新到vuex中
+    loadLocalLogin({ commit }) {
+      const token = loaclCache.getLocalStorage('token')
+      if (token) {
+        commit('storeToken', token)
+      }
+      const userInfo = loaclCache.getLocalStorage('userInfo')
+      if (userInfo) {
+        commit('storeUserInfo', userInfo)
+      }
+      const userMenus = loaclCache.getLocalStorage('userMenus')
+      if (userMenus) {
+        commit('storeUserMenus', userMenus)
+      }
     }
   },
   mutations: {
