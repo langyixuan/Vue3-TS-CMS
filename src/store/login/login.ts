@@ -44,15 +44,15 @@ const loginModule: Module<ILoginState, IRootState> = {
       // 3. 根据用户权限请求相应的用户菜单
       const userMenusRes = await getUserMenus(userInfo.role.id)
       const userMenus = userMenusRes.data
+      loaclCache.setLoaclStorage('userMenus', userMenus)
       commit('storeUserMenus', userMenus)
-      console.log(userMenusRes)
 
       // 4. 跳转到首页
       router.push('/main')
     },
     // 每次刷新都会重新将localStorage中的数据再一次更新到vuex中
     loadLocalLogin({ commit }) {
-      const token = loaclCache.getLocalStorage('token')
+      const token = loaclCache.getLocalStorage('userToken')
       if (token) {
         commit('storeToken', token)
       }

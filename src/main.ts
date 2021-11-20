@@ -11,13 +11,14 @@ import { setupStore } from '@/store/index'
 
 const app = createApp(App)
 
-globalRegister(app) // 注册全局组件
+globalRegister(app) // 注册全局组件t
 app.use(store)
 app.use(router)
 
 app.mount('#app')
 
 // 初始化vuex中的数据，防止每次刷新页面丢失vuex中的数据
+setupStore()
 
 // interface DataType {
 //   data: any

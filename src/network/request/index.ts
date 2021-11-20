@@ -4,8 +4,8 @@
 import axios from 'axios'
 import { AxiosInstance } from 'axios'
 import { LYXRequestInterceptors, LYXRequestConfig } from './type'
-import { ElLoading } from 'element-plus/lib/components'
-import { ILoadingInstance } from 'element-plus'
+import { ElLoading } from 'element-plus'
+import { ILoadingInstance } from 'element-plus/lib/el-loading/src/loading.type'
 import errorHandel from './errorHandel'
 
 class LYXRequest {

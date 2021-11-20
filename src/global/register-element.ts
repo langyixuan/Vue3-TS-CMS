@@ -2,29 +2,47 @@
  * 按需引入Element-Plus组件
  */
 import { App } from 'vue'
-import 'element-plus/dist/index.css'
+import 'element-plus/lib/theme-chalk/base.css'
 import {
+  ElAside,
   ElButton,
   ElCheckbox,
+  ElContainer,
   ElForm,
   ElFormItem,
+  ElHeader,
   ElInput,
   ElLink,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
   ElRadio,
+  ElSubmenu,
   ElTabPane,
-  ElTabs
-} from 'element-plus/lib/components'
+  ElTabs,
+  ElIcon
+} from 'element-plus'
 
 const components = [
+  ElAside,
   ElButton,
+  ElCheckbox,
+  ElContainer,
   ElForm,
   ElFormItem,
+  ElHeader,
   ElInput,
+  ElLink,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
   ElRadio,
-  ElTabs,
+  ElSubmenu,
   ElTabPane,
-  ElCheckbox,
-  ElLink
+  ElTabs,
+  ElIcon
 ]
 
 // 通过createApp所创建的app实例对象实际上是一个App类型的
