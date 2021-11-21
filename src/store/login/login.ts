@@ -12,6 +12,7 @@ import {
 import { ILoginState } from './type'
 import loaclCache from '@/utils/cache'
 import router from '@/router'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 
 // Module类型需要传毒两个范型参数
 // S: 当前模块的状态类型
@@ -75,6 +76,11 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     storeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+      // 获取到用户对应的菜单后，动态的进行路由的匹配
+      const roleRoutes = mapMenusToRoutes(userMenus)
+      roleRoutes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   getters: {}

@@ -7,27 +7,23 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/login'
   },
   {
+    // 登录页面
     path: '/login',
+    name: 'login',
     component: () => import('@/views/login/index.vue')
   },
   {
+    // 首页
     path: '/main',
+    name: 'main',
     component: () => import('@/views/main/index.vue')
+  },
+  {
+    // 当路径没有匹配到相应的组件时，匹配not-found页面
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
+    component: () => import('@/views/not-found/not-found.vue')
   }
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home
-  // },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // }
 ]
 
 const router = createRouter({
