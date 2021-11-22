@@ -11,7 +11,7 @@
 
     <!-- 菜单 -->
     <el-menu
-      default-active="2"
+      :default-active="currentHighLightMenu.id"
       class="el-menu-vertical"
       :collapse="collapse"
       background-color="#010319"
@@ -56,9 +56,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, onMounted } from 'vue'
 import { useStore } from '@/store'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { pathMapToMenu } from '@/utils/map-menus'
 
 export default defineComponent({
   name: 'NavMenu',
@@ -71,7 +72,14 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const router = useRouter()
+    const route = useRoute()
+
     const userMenus = computed(() => store.state.login.userMenus)
+    const currentPath = route.path
+    const currentHighLightMenu = pathMapToMenu(userMenus.value, currentPath)
+    onMounted(() => {
+      console.log(currentHighLightMenu)
+    })
 
     function handleRouteChange(menu: any) {
       router.push({
@@ -80,7 +88,8 @@ export default defineComponent({
     }
     return {
       userMenus,
-      handleRouteChange
+      handleRouteChange,
+      currentHighLightMenu
     }
   }
 })

@@ -4,6 +4,8 @@
 
 import { RouteRecordRaw } from 'vue-router'
 
+let firstMenu: any = null
+
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   // 1. 加载所有的routes(就是不管任意权限的)
   const allRoutes: RouteRecordRaw[] = []
@@ -28,6 +30,11 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
       if (menu.type === 2) {
         const route = allRoutes.find((route) => route.path === menu.url)
         if (route) roleRoutes.push(route)
+        // 因为路径为/main的时候，没有匹配相应的路由，
+        // 所以需要记录菜单的第一项，当访问/main时重定向到菜单的第一项中
+        if (!firstMenu) {
+          firstMenu = menu
+        }
       } else {
         _recurseGetRoute(menu.children)
       }
@@ -37,3 +44,19 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   // console.log(roleRoutes)
   return roleRoutes
 }
+
+// 为了解决刷新页面时动态设置菜单高亮的问题
+export function pathMapToMenu(userMenus: any[], currentPath: string): any {
+  for (const menu of userMenus) {
+    if (menu.type === 1) {
+      const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
+      if (findMenu) {
+        return findMenu
+      }
+    } else if (menu.type === 2 && menu.url === currentPath) {
+      return menu
+    }
+  }
+}
+
+export { firstMenu }
