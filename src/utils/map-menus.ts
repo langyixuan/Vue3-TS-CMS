@@ -3,6 +3,7 @@
  */
 
 import { RouteRecordRaw } from 'vue-router'
+import { IBreadCrumb } from '@/base-ui/breadcrumb'
 
 let firstMenu: any = null
 
@@ -46,17 +47,30 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
 }
 
 // 为了解决刷新页面时动态设置菜单高亮的问题
-export function pathMapToMenu(userMenus: any[], currentPath: string): any {
+export function pathMapToMenu(
+  userMenus: any[],
+  currentPath: string,
+  breadcrumns?: IBreadCrumb[]
+): any {
   for (const menu of userMenus) {
     if (menu.type === 1) {
       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
       if (findMenu) {
+        breadcrumns?.push({ name: menu.name, path: menu.path })
+        breadcrumns?.push({ name: findMenu.name, path: findMenu.path })
         return findMenu
       }
     } else if (menu.type === 2 && menu.url === currentPath) {
       return menu
     }
   }
+}
+
+// 根据路径匹配面包屑
+export function pathMapBreadcrumbs(userMenus: any[], currentPath: string): any {
+  const breadbrumbs: IBreadCrumb[] = []
+  pathMapToMenu(userMenus, currentPath, breadbrumbs)
+  return breadbrumbs
 }
 
 export { firstMenu }

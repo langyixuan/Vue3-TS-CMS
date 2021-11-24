@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 import { useRouter, useRoute } from 'vue-router'
 import { pathMapToMenu } from '@/utils/map-menus'
@@ -77,9 +77,6 @@ export default defineComponent({
     const userMenus = computed(() => store.state.login.userMenus)
     const currentPath = route.path
     const currentHighLightMenu = pathMapToMenu(userMenus.value, currentPath)
-    onMounted(() => {
-      console.log(currentHighLightMenu)
-    })
 
     function handleRouteChange(menu: any) {
       router.push({
