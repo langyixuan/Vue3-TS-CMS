@@ -13,6 +13,7 @@
                   :show-password="item.type === 'password'"
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
+                  v-model="formDataModel[`${item.filed}`]"
                 ></el-input>
               </template>
               <!-- 当表单类型是select下拉选择框时 -->
@@ -20,7 +21,9 @@
                 <el-select
                   :placeholder="item.placeholder"
                   :label="item.label"
-                  v-bind="otherOptions"
+                  v-bind="item.otherOptions"
+                  v-model="formDataModel[`${item.filed}`]"
+                  style="width: 100%"
                 >
                   <el-option
                     v-for="optionItem in item.options"
@@ -32,21 +35,34 @@
               </template>
               <!-- 当表单是datepicker时间选择器的时候 -->
               <template v-else-if="item.type === 'datepicker'">
-                <el-date-picker v-bind="otherOptions"></el-date-picker>
+                <el-date-picker
+                  v-bind="item.otherOptions"
+                  v-model="formDataModel[`${item.filed}`]"
+                  style="width: 100%"
+                ></el-date-picker>
               </template>
             </el-form-item>
           </el-col>
         </template>
       </el-row>
     </el-form>
+    <footer>
+      <slot name="footer"></slot>
+    </footer>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import { IFormItem } from '../type'
+
 export default defineComponent({
   props: {
+    // 需要通过v-model绑定到表单上的数据
+    modelValue: {
+      type: Object,
+      required: true
+    },
     // 复用该组件时传递进行来的配置项
     formItems: {
       type: Array as PropType<IFormItem[]>,
@@ -55,12 +71,12 @@ export default defineComponent({
     // 表单的label宽度
     labelWidth: {
       type: String,
-      default: '100px'
+      default: '90px'
     },
     // 表单的样式
     formItemStyle: {
       type: Object,
-      default: () => ({ padding: '10px 40px' })
+      default: () => ({ padding: '5px 20px' })
     },
     // 响应式布局
     colLayout: {
@@ -72,6 +88,16 @@ export default defineComponent({
         sm: 24, // >= 768px
         xs: 24 // < 768px
       })
+    }
+  },
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const formDataModel = ref({ ...props.modelValue })
+    watch(formDataModel, (newValue) => {
+      emit('update:modelValue', newValue)
+    })
+    return {
+      formDataModel
     }
   }
 })

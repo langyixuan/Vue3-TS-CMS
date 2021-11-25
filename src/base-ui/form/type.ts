@@ -3,6 +3,7 @@ type IFormType = 'input' | 'password' | 'select' | 'datepicker'
 // 每一项表单元素中的属性类型
 export interface IFormItem {
   type: IFormType
+  filed: string
   label: string
   placeholder?: any
   rules?: any[]

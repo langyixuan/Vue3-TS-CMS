@@ -1,23 +1,23 @@
 <template>
   <div class="user">
-    <LyxForm v-bind="searchFromConfig" />
+    <PageSearch :searchFormConfig="searchFormConfig" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import LyxForm from '@/base-ui/form'
-import { searchFromConfig } from './config/search.config'
+import { searchFormConfig } from './config/search.config'
+import PageSearch from '@/components/page-search'
 
 export default defineComponent({
   name: 'User', // 用户管理页面
-  components: { LyxForm },
+  components: { PageSearch },
   setup() {
     return {
-      searchFromConfig
+      searchFormConfig
     }
   }
 })
 </script>
 
-<style scoped></style>
+<style scoped lang="scss"></style>
