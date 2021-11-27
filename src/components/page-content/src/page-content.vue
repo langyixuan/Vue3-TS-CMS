@@ -1,6 +1,6 @@
 <template>
   <div class="page-content">
-    <LyxTabel :listData="userList" v-bind="contentTableConfig">
+    <LyxTabel :listData="dataList" v-bind="contentTableConfig">
       <template #status="scope">
         <el-button
           :type="scope.row.enable ? 'success' : 'warning'"
@@ -63,11 +63,13 @@ export default defineComponent({
       }
     })
 
-    const userList = computed(() => store.state.system.userList)
-    const userCount = computed(() => store.state.system.userCount)
+    const dataList = computed(() =>
+      store.getters[`system/pageListData`](props.pageName)
+    )
+    // const userCount = computed(() => store.state.system.userCount)
 
     return {
-      userList
+      dataList
     }
   }
 })

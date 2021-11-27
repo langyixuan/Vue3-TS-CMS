@@ -43,7 +43,18 @@ const systemModule: Module<ISystemState, IRootState> = {
       state.roleCount = roleCount
     }
   },
-  getters: {}
+  getters: {
+    pageListData(state) {
+      return (pageName: string) => {
+        switch (pageName) {
+          case 'users':
+            return state.userList
+          case 'role':
+            return state.roleList
+        }
+      }
+    }
+  }
 }
 
 export default systemModule

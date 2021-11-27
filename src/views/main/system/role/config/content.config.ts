@@ -2,25 +2,23 @@
 export const contentTableConfig = {
   // 表格展示表头信息
   propList: [
-    { prop: 'name', label: '用户名', minWidth: '90' },
-    { prop: 'realname', label: '真实姓名', minWidth: '90' },
-    { prop: 'cellphone', label: '手机号码', minWidth: '90' },
-    { prop: 'enable', label: '状态', minWidth: '80', slotName: 'status' },
+    { prop: 'name', label: '角色名', minWidth: '100' },
+    { prop: 'intro', label: '权限介绍', minWidth: '100' },
     {
       prop: 'createAt',
       label: '创建时间',
-      minWidth: '140',
+      minWidth: '160',
       slotName: 'createTime'
     },
     {
       prop: 'updateAt',
       label: '更新时间',
-      minWidth: '140',
+      minWidth: '160',
       slotName: 'updateTime'
     },
     {
       label: '操作',
-      minWidth: '90',
+      minWidth: '100',
       slotName: 'operate'
     }
   ],
@@ -29,5 +27,5 @@ export const contentTableConfig = {
   // 是否显示表单项的选择框
   isShowSelection: true,
   // 表单标题
-  title: '用户列表'
+  title: '权限列表'
 }

@@ -6,8 +6,8 @@ export const searchFormConfig: IForm = {
     {
       filed: 'id',
       type: 'input',
-      label: 'id',
-      placeholder: '请输入id'
+      label: '用户ID',
+      placeholder: '请输入用户ID'
     },
     {
       filed: 'name',

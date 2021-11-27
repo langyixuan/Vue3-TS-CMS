@@ -4,32 +4,16 @@ import { IForm } from '@/base-ui/form/type'
 export const searchFormConfig: IForm = {
   formItems: [
     {
-      filed: 'id',
-      type: 'input',
-      label: 'id',
-      placeholder: '请输入id'
-    },
-    {
       filed: 'name',
       type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
+      label: '角色名称',
+      placeholder: '请输入角色名称'
     },
     {
-      filed: 'password',
-      type: 'password',
-      label: '密码',
-      placeholder: '请输入密码'
-    },
-    {
-      filed: 'sports',
-      type: 'select',
-      label: '喜欢的运动',
-      placeholder: '请选择喜欢的运动',
-      options: [
-        { title: '篮球', value: 'basketball' },
-        { title: '足球', value: 'football' }
-      ]
+      filed: 'intro',
+      type: 'input',
+      label: '权限介绍',
+      placeholder: '请输入权限介绍'
     },
     {
       filed: 'createTime',
