@@ -1,20 +1,32 @@
 <template>
   <div class="user">
     <PageSearch :searchFormConfig="searchFormConfig" />
+    <PageContent
+      :contentTableConfig="contentTableConfig"
+      :pageName="pageName"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { searchFormConfig } from './config/search.config'
+
 import PageSearch from '@/components/page-search'
+import PageContent from '@/components/page-content'
+
+import { searchFormConfig } from './config/search.config'
+import { contentTableConfig } from './config/content.config'
 
 export default defineComponent({
   name: 'User', // 用户管理页面
-  components: { PageSearch },
+  components: { PageSearch, PageContent },
   setup() {
+    // 当前页面名称(用于在page-content组件中发送相应的网络请求)
+    const pageName = 'users'
     return {
-      searchFormConfig
+      searchFormConfig,
+      contentTableConfig,
+      pageName
     }
   }
 })

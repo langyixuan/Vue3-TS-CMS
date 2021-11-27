@@ -31,7 +31,10 @@ import {
   ElTabPane,
   ElTabs,
   ElBreadcrumb,
-  ElBreadcrumbItem
+  ElBreadcrumbItem,
+  ElTable,
+  ElTableColumn,
+  ElPagination
 } from 'element-plus'
 
 const components = [
@@ -62,7 +65,10 @@ const components = [
   ElTabPane,
   ElTabs,
   ElBreadcrumb,
-  ElBreadcrumbItem
+  ElBreadcrumbItem,
+  ElTable,
+  ElTableColumn,
+  ElPagination
 ]
 
 // 通过createApp所创建的app实例对象实际上是一个App类型的
