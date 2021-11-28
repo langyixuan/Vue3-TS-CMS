@@ -6,7 +6,9 @@
           <el-button type="primary" plain @click="clearFormData"
             >重置</el-button
           >
-          <el-button type="primary" plain>搜索</el-button>
+          <el-button type="primary" plain @click="searchFormData"
+            >搜索</el-button
+          >
         </div>
       </template>
     </LyxForm>
@@ -26,7 +28,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['resetBtnClick', 'queryBtnClick'],
+  setup(props, { emit }) {
     // 因为v-model中的数据不能写死，而是根据不同页面的配置文件决定的
     const formItems = props.searchFormConfig?.formItems ?? []
     const formOriginData: any = {}
@@ -34,15 +37,24 @@ export default defineComponent({
       formOriginData[item.filed] = ''
     }
     const formDataModel = ref(formOriginData)
+
+    // 清空表单的输入
     function clearFormData() {
       for (const key in formOriginData) {
         formDataModel.value[`${key}`] = formOriginData[key]
       }
+      emit('resetBtnClick')
+    }
+
+    // 根据输入关键字搜索
+    function searchFormData() {
+      emit('queryBtnClick', formDataModel.value)
     }
 
     return {
       formDataModel,
-      clearFormData
+      clearFormData,
+      searchFormData
     }
   }
 })

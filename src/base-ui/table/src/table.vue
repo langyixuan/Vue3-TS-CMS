@@ -50,11 +50,11 @@
     <footer>
       <slot name="footer">
         <el-pagination
-          v-model:currentPage="currentPage4"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          :page-sizes="[10, 20, 30]"
+          :page-size="page.pageSize"
+          :current-page="page.currentPage"
+          :total="listCount"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         >
@@ -88,15 +88,35 @@ export default defineComponent({
     title: {
       type: String,
       required: true
+    },
+    listCount: {
+      type: Number,
+      required: true
+    },
+    // 双向绑定pageInfo的数据
+    page: {
+      type: Object,
+      default: () => ({ currentPage: 0, pageSize: 10 })
     }
   },
-  setup() {
+  emits: ['selectionChange', 'update:page'],
+  setup(props, { emit }) {
     function handleSelectionChange(value: any) {
-      console.log(value)
+      console.log('---', value)
+    }
+    // 监听分页器每页显示数量的改变
+    function handleSizeChange(pageSize: number) {
+      emit('update:page', { ...props.page, pageSize })
+    }
+    // 监听分页器当前页数的改变
+    function handleCurrentChange(currentPage: number) {
+      emit('update:page', { ...props.page, currentPage })
     }
 
     return {
-      handleSelectionChange
+      handleSelectionChange,
+      handleSizeChange,
+      handleCurrentChange
     }
   }
 })

@@ -1,6 +1,11 @@
 <template>
   <div class="page-content">
-    <LyxTabel :listData="dataList" v-bind="contentTableConfig">
+    <LyxTabel
+      :listData="dataList"
+      :listCount="listCount"
+      v-bind="contentTableConfig"
+      v-model:page="pageInfo"
+    >
       <template #status="scope">
         <el-button
           :type="scope.row.enable ? 'success' : 'warning'"
@@ -36,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import LyxTabel from '@/base-ui/table'
 
@@ -55,21 +60,45 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
+    // 因为table组件和page-content组件中的每页显示数据数量和当前页面彼此会互相影响，
+    //所以两个组件可以对该数据做双向绑定
+    const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    watch(pageInfo, () => getpageContentData())
 
+    function getpageContentData(queryInfo: any = {}) {
+      // 将queryInfo参数直接展开放在请求参数中，如有空的value值会报错
+      const hasValueQueryInfo: any = {}
+      for (const item in queryInfo) {
+        if (queryInfo[item].length) {
+          hasValueQueryInfo[item] = queryInfo[item]
+        }
+      }
+      // 请求当前模块数据
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          size: pageInfo.value.pageSize,
+          ...hasValueQueryInfo
+        }
+      })
+    }
+    getpageContentData()
+
+    // 获取table列表显示数据
     const dataList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
-    // const userCount = computed(() => store.state.system.userCount)
+    // 获取显示数据的总条数
+    const listCount = computed(() =>
+      store.getters[`system/pageListCount`](props.pageName)
+    )
 
     return {
-      dataList
+      dataList,
+      listCount,
+      getpageContentData,
+      pageInfo
     }
   }
 })
