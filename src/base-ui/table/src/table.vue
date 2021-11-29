@@ -24,12 +24,14 @@
       style="width: 100%"
       @selection-change="handleSelectionChange"
     >
+      <!-- 是否需要展示选框 -->
       <el-table-column
         v-if="isShowSelection"
         type="selection"
         align="center"
         width="40"
       ></el-table-column>
+      <!-- 是否需要展示序号 -->
       <el-table-column
         v-if="isShowIndex"
         type="index"
@@ -38,7 +40,7 @@
         width="60"
       ></el-table-column>
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" align="center" show-overflow-tooltip>
           <template #default="scope">
             <slot :name="propItem.slotName" :row="scope.row">
               {{ scope.row[propItem.prop] }}

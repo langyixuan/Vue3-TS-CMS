@@ -36,6 +36,13 @@
           ></el-button>
         </div>
       </template>
+      <template
+        v-for="item in otherPropsSlots"
+        :key="item.prop"
+        #[item.slotName]="scope"
+      >
+        <slot :name="item.slotName" :row="scope.row"></slot>
+      </template>
     </LyxTabel>
   </div>
 </template>
@@ -94,11 +101,24 @@ export default defineComponent({
       store.getters[`system/pageListCount`](props.pageName)
     )
 
+    // 插槽分为固定插槽和页面独有插槽
+    const otherPropsSlots = props.contentTableConfig?.propList.filter(
+      (item: any) => {
+        if (item.slotName === 'status') return false
+        if (item.slotName === 'updateTime') return false
+        if (item.slotName === 'createTime') return false
+        if (item.slotName === 'operate') return false
+        return true
+      }
+    )
+    console.log(otherPropsSlots)
+
     return {
       dataList,
       listCount,
       getpageContentData,
-      pageInfo
+      pageInfo,
+      otherPropsSlots
     }
   }
 })

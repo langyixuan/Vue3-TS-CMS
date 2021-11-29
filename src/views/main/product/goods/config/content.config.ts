@@ -4,7 +4,7 @@ export const contentTableConfig = {
   propList: [
     { prop: 'name', label: '商品名称', minWidth: '80' },
     { prop: 'oldPrice', label: '原价格', minWidth: '80', slotName: 'oldPrice' },
-    { prop: 'newPrice', label: '现价格', minWidth: '80' },
+    { prop: 'newPrice', label: '现价格', minWidth: '80', slotName: 'newPrice' },
     { prop: 'imgUrl', label: '商品图片', minWidth: '100', slotName: 'image' },
     { prop: 'status', label: '状态', minWidth: '100', slotName: 'status' },
     {
@@ -30,5 +30,5 @@ export const contentTableConfig = {
   // 是否显示表单项的选择框
   isShowSelection: true,
   // 表单标题
-  title: '权限列表'
+  title: '商品列表'
 }

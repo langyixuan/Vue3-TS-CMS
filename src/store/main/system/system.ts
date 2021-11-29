@@ -13,7 +13,9 @@ const systemModule: Module<ISystemState, IRootState> = {
       userList: [],
       userCount: 0,
       roleList: [],
-      roleCount: 0
+      roleCount: 0,
+      goodsList: [],
+      goodsCount: 0
     }
   },
   actions: {
@@ -41,6 +43,12 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     updateRoleCount(state, roleCount: number) {
       state.roleCount = roleCount
+    },
+    updateGoodsList(state, goodsList: any[]) {
+      state.goodsList = goodsList
+    },
+    updateGoodsCount(state, goodsCount: number) {
+      state.goodsCount = goodsCount
     }
   },
   getters: {
@@ -51,6 +59,8 @@ const systemModule: Module<ISystemState, IRootState> = {
             return state.userList
           case 'role':
             return state.roleList
+          case 'goods':
+            return state.goodsList
         }
       }
     },
@@ -60,7 +70,9 @@ const systemModule: Module<ISystemState, IRootState> = {
           case 'users':
             return state.userCount
           case 'role':
-            return state.userList
+            return state.userCount
+          case 'goods':
+            return state.goodsCount
         }
       }
     }
