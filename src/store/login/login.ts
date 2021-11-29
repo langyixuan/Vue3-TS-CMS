@@ -12,7 +12,7 @@ import {
 import { ILoginState } from './type'
 import loaclCache from '@/utils/cache'
 import router from '@/router'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToRoutes, mapMenusPermissions } from '@/utils/map-menus'
 
 // Module类型需要传毒两个范型参数
 // S: 当前模块的状态类型
@@ -23,7 +23,8 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: null,
-      userMenus: []
+      userMenus: [],
+      permissions: []
     }
   },
   actions: {
@@ -81,6 +82,9 @@ const loginModule: Module<ILoginState, IRootState> = {
       roleRoutes.forEach((route) => {
         router.addRoute('main', route)
       })
+      // 匹配用户菜单的操作权限
+      const permissions = mapMenusPermissions(userMenus)
+      state.permissions = permissions
     }
   },
   getters: {}

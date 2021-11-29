@@ -6,6 +6,17 @@
       v-bind="contentTableConfig"
       v-model:page="pageInfo"
     >
+      <template #headerHandler v-if="isCreate">
+        <el-button type="primary" plain size="medium" icon="el-icon-plus"
+          >新增</el-button
+        >
+        <el-button
+          type="primary"
+          plain
+          size="medium"
+          icon="el-icon-refresh"
+        ></el-button>
+      </template>
       <template #status="scope">
         <el-button
           :type="scope.row.enable ? 'success' : 'warning'"
@@ -27,12 +38,14 @@
             plain
             icon="el-icon-edit"
             size="mini"
+            v-if="isUpdate"
           ></el-button>
           <el-button
             type="warning"
             plain
             icon="el-icon-delete"
             size="mini"
+            v-if="isDelete"
           ></el-button>
         </div>
       </template>
@@ -51,6 +64,7 @@
 import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import LyxTabel from '@/base-ui/table'
+import { isHasPermission } from '@/hooks/user-page-permission'
 
 export default defineComponent({
   name: 'PageContent',
@@ -72,7 +86,14 @@ export default defineComponent({
     const pageInfo = ref({ currentPage: 0, pageSize: 10 })
     watch(pageInfo, () => getpageContentData())
 
+    // 获取用户操作当前页面的权限
+    const isQuery = isHasPermission(props.pageName, 'query')
+    const isCreate = isHasPermission(props.pageName, 'create')
+    const isUpdate = isHasPermission(props.pageName, 'update')
+    const isDelete = isHasPermission(props.pageName, 'delete')
+
     function getpageContentData(queryInfo: any = {}) {
+      if (!isQuery) return
       // 将queryInfo参数直接展开放在请求参数中，如有空的value值会报错
       const hasValueQueryInfo: any = {}
       for (const item in queryInfo) {
@@ -111,14 +132,16 @@ export default defineComponent({
         return true
       }
     )
-    console.log(otherPropsSlots)
 
     return {
       dataList,
       listCount,
       getpageContentData,
       pageInfo,
-      otherPropsSlots
+      otherPropsSlots,
+      isCreate,
+      isUpdate,
+      isDelete
     }
   }
 })

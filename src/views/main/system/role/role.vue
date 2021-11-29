@@ -1,5 +1,5 @@
 <template>
-  <div class="user">
+  <div class="role">
     <PageSearch :searchFormConfig="searchFormConfig" />
     <PageContent
       :contentTableConfig="contentTableConfig"

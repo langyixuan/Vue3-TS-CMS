@@ -10,12 +10,10 @@ export function handlePageSearch() {
   // 监听page-search中重置按钮的点击
   function handelResetClick() {
     pageContentRef.value?.getpageContentData()
-    console.log('我被调用了')
   }
   // 监听page-search中搜索按钮的点击
   function handleSearchClick(queryInfo: any) {
     pageContentRef.value?.getpageContentData(queryInfo)
-    console.log('我被调用了')
   }
   return [pageContentRef, handelResetClick, handleSearchClick]
 }

@@ -15,7 +15,9 @@ const systemModule: Module<ISystemState, IRootState> = {
       roleList: [],
       roleCount: 0,
       goodsList: [],
-      goodsCount: 0
+      goodsCount: 0,
+      menuList: [],
+      menuCount: 0
     }
   },
   actions: {
@@ -23,6 +25,7 @@ const systemModule: Module<ISystemState, IRootState> = {
       const pageUrl = `/${payload.pageName}/list`
       // 获取系统管理搜索结果数据
       const pageListRes = await getPageListData(pageUrl, payload.queryInfo)
+
       // totalCount请求结果总数
       const changePageName =
         payload.pageName.slice(0, 1).toUpperCase() + payload.pageName.slice(1)
@@ -49,6 +52,12 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     updateGoodsCount(state, goodsCount: number) {
       state.goodsCount = goodsCount
+    },
+    updateMenuList(state, menuList: any[]) {
+      state.menuList = menuList
+    },
+    updateMenuCount(state, menuCount: number) {
+      state.menuCount = menuCount
     }
   },
   getters: {
@@ -61,6 +70,8 @@ const systemModule: Module<ISystemState, IRootState> = {
             return state.roleList
           case 'goods':
             return state.goodsList
+          case 'menu':
+            return state.menuList
         }
       }
     },
@@ -73,6 +84,8 @@ const systemModule: Module<ISystemState, IRootState> = {
             return state.userCount
           case 'goods':
             return state.goodsCount
+          case 'menu':
+            return state.menuCount
         }
       }
     }

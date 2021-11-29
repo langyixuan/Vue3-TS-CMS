@@ -4,17 +4,7 @@
       <slot name="header">
         <div class="title">{{ title }}</div>
         <div class="handle-btn">
-          <slot name="headerHandler">
-            <el-button type="primary" plain size="medium" icon="el-icon-plus"
-              >新增</el-button
-            >
-            <el-button
-              type="primary"
-              plain
-              size="medium"
-              icon="el-icon-refresh"
-            ></el-button>
-          </slot>
+          <slot name="headerHandler"> </slot>
         </div>
       </slot>
     </header>
@@ -23,6 +13,7 @@
       stripe
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      v-bind="childrenProps"
     >
       <!-- 是否需要展示选框 -->
       <el-table-column
@@ -99,6 +90,11 @@ export default defineComponent({
     page: {
       type: Object,
       default: () => ({ currentPage: 0, pageSize: 10 })
+    },
+    // 树形数据，需要树形菜单展示
+    childrenProps: {
+      type: Object,
+      default: () => ({})
     }
   },
   emits: ['selectionChange', 'update:page'],

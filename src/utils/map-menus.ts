@@ -73,4 +73,21 @@ export function pathMapBreadcrumbs(userMenus: any[], currentPath: string): any {
   return breadbrumbs
 }
 
+// 根据用户菜单匹配用户对菜单的操作权限
+export function mapMenusPermissions(userMenus: any[]) {
+  const permissions: string[] = []
+  function _recurseGetPermission(menus: any[]) {
+    for (const menu of menus) {
+      if (menu.type === 1 || menu.type === 2) {
+        _recurseGetPermission(menu.children ?? [])
+      } else if (menu.type === 3) {
+        permissions.push(menu.permission)
+      }
+    }
+  }
+  _recurseGetPermission(userMenus)
+
+  return permissions
+}
+
 export { firstMenu }
