@@ -13,12 +13,11 @@ const app = createApp(App)
 
 globalRegister(app) // 注册全局组件
 app.use(store)
+// 初始化vuex中的数据，防止每次刷新页面丢失vuex中的数据
 setupStore()
 app.use(router)
 
 app.mount('#app')
-
-// 初始化vuex中的数据，防止每次刷新页面丢失vuex中的数据
 
 // interface DataType {
 //   data: any

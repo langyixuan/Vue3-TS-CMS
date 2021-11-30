@@ -4,7 +4,11 @@
       <el-row>
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout">
-            <el-form-item :label="item.label" :style="formItemStyle">
+            <el-form-item
+              :label="item.label"
+              :style="formItemStyle"
+              v-if="!item.isHidden"
+            >
               <!-- 当表单类型是input或者passwiord类型时 -->
               <template
                 v-if="item.type === 'input' || item.type === 'password'"

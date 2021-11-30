@@ -7,7 +7,12 @@
       v-model:page="pageInfo"
     >
       <template #headerHandler v-if="isCreate">
-        <el-button type="primary" plain size="medium" icon="el-icon-plus"
+        <el-button
+          type="primary"
+          plain
+          size="medium"
+          icon="el-icon-plus"
+          @click="handleCreateBtn"
           >新增</el-button
         >
         <el-button
@@ -31,7 +36,7 @@
       <template #updateTime="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #operate>
+      <template #operate="scope">
         <div class="handle-btns">
           <el-button
             type="primary"
@@ -39,6 +44,7 @@
             icon="el-icon-edit"
             size="mini"
             v-if="isUpdate"
+            @click="handleEditBtn(scope.row)"
           ></el-button>
           <el-button
             type="warning"
@@ -46,6 +52,7 @@
             icon="el-icon-delete"
             size="mini"
             v-if="isDelete"
+            @click="handleDelete(scope.row)"
           ></el-button>
         </div>
       </template>
@@ -64,7 +71,7 @@
 import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import LyxTabel from '@/base-ui/table'
-import { isHasPermission } from '@/hooks/user-page-permission'
+import { isHasPermission } from '@/hooks/use-page-permission'
 
 export default defineComponent({
   name: 'PageContent',
@@ -79,11 +86,12 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['triggerCreateBtn', 'triggerEditBtn'],
+  setup(props, { emit }) {
     const store = useStore()
     // 因为table组件和page-content组件中的每页显示数据数量和当前页面彼此会互相影响，
     //所以两个组件可以对该数据做双向绑定
-    const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    const pageInfo = ref({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getpageContentData())
 
     // 获取用户操作当前页面的权限
@@ -105,7 +113,7 @@ export default defineComponent({
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
           size: pageInfo.value.pageSize,
           ...hasValueQueryInfo
         }
@@ -133,6 +141,24 @@ export default defineComponent({
       }
     )
 
+    // 点击删除某条数据
+    function handleDelete(item: any) {
+      store.dispatch('system/deletePageItemAction', {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
+
+    // 监听点击新增按钮
+    function handleCreateBtn() {
+      emit('triggerCreateBtn')
+    }
+
+    // 监听修改按钮的点击
+    function handleEditBtn(item: any) {
+      emit('triggerEditBtn', item)
+    }
+
     return {
       dataList,
       listCount,
@@ -141,7 +167,10 @@ export default defineComponent({
       otherPropsSlots,
       isCreate,
       isUpdate,
-      isDelete
+      isDelete,
+      handleDelete,
+      handleCreateBtn,
+      handleEditBtn
     }
   }
 })

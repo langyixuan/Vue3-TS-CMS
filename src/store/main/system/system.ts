@@ -4,7 +4,12 @@
 import { Module } from 'vuex'
 import { ISystemState } from './type'
 import { IRootState } from '@/store/type'
-import { getPageListData } from '@/network/main/system/system'
+import {
+  getPageListData,
+  deletePageItem,
+  createPageItem,
+  editPageItem
+} from '@/network/main/system/system'
 
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
@@ -21,9 +26,9 @@ const systemModule: Module<ISystemState, IRootState> = {
     }
   },
   actions: {
+    // 获取当前页面的列表显示数据
     async getPageListAction({ commit }, payload) {
       const pageUrl = `/${payload.pageName}/list`
-      // 获取系统管理搜索结果数据
       const pageListRes = await getPageListData(pageUrl, payload.queryInfo)
 
       // totalCount请求结果总数
@@ -32,6 +37,48 @@ const systemModule: Module<ISystemState, IRootState> = {
       const { list, totalCount } = pageListRes.data
       commit(`update${changePageName}List`, list)
       commit(`update${changePageName}Count`, totalCount)
+    },
+
+    // 删除当前页面列表中的数据
+    async deletePageItemAction({ dispatch }, payload) {
+      const { pageName, id } = payload
+      const pageUrl = `/${pageName}/${id}`
+      await deletePageItem(pageUrl)
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+
+    // 新增当前页面列表中的数据
+    async createPageItemAction({ dispatch }, payload) {
+      const { pageName, newData } = payload
+      const pageUrl = `/${pageName}`
+      await createPageItem(pageUrl, newData)
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+
+    // 修改当前页面列表中的数据
+    async editPageItemAction({ dispatch }, payload) {
+      const { pageName, editData, id } = payload
+      const pageUrl = `/${pageName}/${id}`
+      await editPageItem(pageUrl, editData)
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
     }
   },
   mutations: {

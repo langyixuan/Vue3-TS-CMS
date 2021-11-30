@@ -7,6 +7,8 @@ import { ISystemState } from './main/system/type'
 export interface IRootState {
   name: string
   password: string
+  departmentList: any[]
+  roleList: any[]
 }
 
 export interface IRootWithModule {
