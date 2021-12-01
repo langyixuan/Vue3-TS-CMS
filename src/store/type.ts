@@ -9,6 +9,7 @@ export interface IRootState {
   password: string
   departmentList: any[]
   roleList: any[]
+  menuList: any[]
 }
 
 export interface IRootWithModule {

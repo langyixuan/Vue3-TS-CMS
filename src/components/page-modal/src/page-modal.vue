@@ -8,6 +8,7 @@
       :title="createTitle"
     >
       <LyxForm v-bind="modalConfig" v-model="formDataModel" />
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
@@ -42,6 +43,10 @@ export default defineComponent({
     pageName: {
       type: String,
       required: true
+    },
+    otherInfo: {
+      type: Object,
+      default: () => ({})
     }
   },
   setup(props) {
@@ -65,13 +70,13 @@ export default defineComponent({
       if (!Object.keys(props.defaultInfo).length) {
         store.dispatch('system/createPageItemAction', {
           pageName: props.pageName,
-          newData: { ...formDataModel.value }
+          newData: { ...formDataModel.value, ...props.otherInfo }
         })
       } else {
         // 在编辑中点击确定按钮
         store.dispatch('system/editPageItemAction', {
           pageName: props.pageName,
-          editData: { ...formDataModel.value },
+          editData: { ...formDataModel.value, ...props.otherInfo },
           id: props.defaultInfo.id
         })
       }

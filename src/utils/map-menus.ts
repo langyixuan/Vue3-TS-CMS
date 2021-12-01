@@ -90,4 +90,21 @@ export function mapMenusPermissions(userMenus: any[]) {
   return permissions
 }
 
+// 取出树形数据结构中的叶节点数据(就是最后一层)
+// 需求： 在role页面的树形控件中设置回显数据
+export function getMenuLeafKeys(menuList: any[]) {
+  const leafKeys: number[] = []
+  function _recurseGetLeaf(menus: any[]) {
+    for (const menu of menus) {
+      if (menu.children) {
+        _recurseGetLeaf(menu.children)
+      } else {
+        leafKeys.push(menu.id)
+      }
+    }
+  }
+  _recurseGetLeaf(menuList)
+  return leafKeys
+}
+
 export { firstMenu }

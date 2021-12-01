@@ -64,7 +64,7 @@ export default defineComponent({
       usePageModal(createCallback, editCallback)
 
     const store = useStore()
-    // 获取部门以及角色列表
+    // 获取全部部门以全部及角色列表
     const departmentList = store.state.departmentList
     const roleList = store.state.roleList
     // 将部门以及角色列表动态的设置到modal.config中对应的部门以及角色的options中

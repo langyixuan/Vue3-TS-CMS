@@ -29,13 +29,15 @@ const loginModule: Module<ILoginState, IRootState> = {
   },
   actions: {
     // 实现登录逻辑
-    async accoutLoginAction({ commit }, payload: any) {
+    async accoutLoginAction({ commit, dispatch }, payload: any) {
       // 1. 获取用户token
       const loginRes = await accountLoginRequest(payload)
       const { id, token } = loginRes.data
       // 将用户Token进行本地缓存
       loaclCache.setLoaclStorage('userToken', token)
       commit('storeToken', token)
+      // 因为请求初始化数据需要用户的token,防止没有存储用户token时就去请求初始化数据
+      dispatch('getInitialDataAction', null, { root: true })
 
       // 2. 获取用户信息
       const userInfoRes = await getUserInfo(id)
@@ -53,10 +55,11 @@ const loginModule: Module<ILoginState, IRootState> = {
       router.push('/main')
     },
     // 每次刷新都会重新将localStorage中的数据再一次更新到vuex中
-    loadLocalLogin({ commit }) {
+    loadLocalLogin({ commit, dispatch }) {
       const token = loaclCache.getLocalStorage('userToken')
       if (token) {
         commit('storeToken', token)
+        dispatch('getInitialDataAction', null, { root: true })
       }
       const userInfo = loaclCache.getLocalStorage('userInfo')
       if (userInfo) {
